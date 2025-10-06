@@ -3,6 +3,7 @@ package Cocky_Camel.hospital;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,5 +48,16 @@ public class NurseController {
 	@GetMapping("/nurse/index")
 	public ResponseEntity<List<Nurse>> getAll() {
 		return ResponseEntity.ok(nurses);
+	}
+	
+	@PostMapping("/nurse/login")
+	public ResponseEntity<String> login(@RequestBody Nurse loginRequest) {
+	    for (Nurse nurse : nurses) {
+	        if (nurse.getUser().equals(loginRequest.getUser())
+	                && nurse.getPassword().equals(loginRequest.getPassword())) {
+	            return ResponseEntity.ok("Login correcto. Bienvenido/a " + nurse.getName() + "!");
+	        }
+	    }
+	    return ResponseEntity.status(401).body("Usuario o contraseña incorrectos");
 	}
 }
