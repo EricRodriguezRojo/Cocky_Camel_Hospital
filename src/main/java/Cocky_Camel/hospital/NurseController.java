@@ -50,11 +50,11 @@ public class NurseController {
 		return ResponseEntity.ok(nurses);
 	}
 	
-	@PostMapping("/nurse/login")
-	public ResponseEntity<String> login(@RequestBody Nurse loginRequest) {
+	@PostMapping("/nurse/login/{user}/{password}")
+	public ResponseEntity<String> login(@PathVariable String user, String password) {
 	    for (Nurse nurse : nurses) {
-	        if (nurse.getUser().equals(loginRequest.getUser())
-	                && nurse.getPassword().equals(loginRequest.getPassword())) {
+	        if (nurse.getUser().equalsIgnoreCase(user)
+	                && nurse.getPassword().equals(password)) {
 	            return ResponseEntity.ok("Login correcto. Bienvenido/a " + nurse.getName() + "!");
 	        }
 	    }
