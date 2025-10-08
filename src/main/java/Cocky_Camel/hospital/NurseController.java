@@ -51,7 +51,7 @@ public class NurseController {
 	}
 	
 	@PostMapping("/nurse/login/{user}/{password}")
-	public ResponseEntity<String> login(@PathVariable String user, String password) {
+	public ResponseEntity<String> login(@PathVariable String user, @PathVariable String password) {
 	    for (Nurse nurse : nurses) {
 	        if (nurse.getUser().equalsIgnoreCase(user)
 	                && nurse.getPassword().equals(password)) {
