@@ -48,8 +48,7 @@ public class NurseController {
 	        return ResponseEntity.ok(nurse);
 	    }
 
-	    return ResponseEntity.status(404)
-	            .body("No se encontró ningún enfermero con el nombre: " + name);
+	    return ResponseEntity.status(404).body("No se encontró ningún enfermero con el nombre: " + name);
 	}
 
 
