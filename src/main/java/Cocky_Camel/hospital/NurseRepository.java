@@ -1,0 +1,6 @@
+package Cocky_Camel.hospital;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface NurseRepository extends JpaRepository<NurseEntity, Integer> {
+}
