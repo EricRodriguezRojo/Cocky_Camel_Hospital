@@ -40,7 +40,7 @@ public class NurseController {
 	 * (Exception e) { e.printStackTrace(); } }
 	 **/
 
-	@GetMapping("/name/{name}")
+	@GetMapping("/nurse/name/{name}")
 	public ResponseEntity<?> findByName(@PathVariable String name) {
 	    Nurse nurse = nurseRepository.findByNameIgnoreCase(name);
 
