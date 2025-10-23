@@ -40,18 +40,17 @@ public class NurseController {
 	 * (Exception e) { e.printStackTrace(); } }
 	 **/
 
-	@GetMapping("/nurse/name/{name}")
-	public ResponseEntity<String> findByName(@PathVariable String name) {
-		for (Nurse nurse : nurses) {
-			if (nurse.getName().equalsIgnoreCase(name)) {
-				String response = "Enfermero encontrado: " + nurse.getName() + " | Usuario: " + nurse.getUser()
-						+ " | Password: " + nurse.getPassword();
-				return ResponseEntity.ok(response);
-			}
-		}
+	@GetMapping("/name/{name}")
+	public ResponseEntity<?> findByName(@PathVariable String name) {
+	    Nurse nurse = nurseRepository.findByNameIgnoreCase(name);
 
-		return ResponseEntity.status(404).body("No se encontró ningún enfermero con el nombre: " + name);
+	    if (nurse != null) {
+	        return ResponseEntity.ok(nurse);
+	    }
+
+	    return ResponseEntity.status(404).body("No se encontró ningún enfermero con el nombre: " + name);
 	}
+
 
 	@GetMapping("/nurse/index")
 	public ResponseEntity<List<Nurse>> getAll() {
