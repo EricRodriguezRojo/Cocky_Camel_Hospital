@@ -59,11 +59,12 @@ public class NurseController {
 
 	@PostMapping("/nurse/login/{user}/{password}")
 	public ResponseEntity<String> login(@PathVariable String user, @PathVariable String password) {
-		for (Nurse nurse : nurses) {
-			if (nurse.getUser().equalsIgnoreCase(user) && nurse.getPassword().equals(password)) {
-				return ResponseEntity.ok("Login correcto. Bienvenido/a " + nurse.getName() + "!");
-			}
-		}
-		return ResponseEntity.status(401).body("Usuario o contraseña incorrectos");
+	    Nurse nurse = nurseRepository.findByUserIgnoreCase(user);
+
+	    if (nurse != null && nurse.getPassword().equals(password)) {
+	        return ResponseEntity.ok("Login correcto. Bienvenido/a " + nurse.getName() + "!");
+	    } else {
+	        return ResponseEntity.status(401).body("Usuario o contraseña incorrectos");
+	    }
 	}
 }
