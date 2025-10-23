@@ -24,7 +24,7 @@ public class NurseController {
 	private NurseRepository nurseRepository;
 
 	@GetMapping("/index")
-	public @ResponseBody Iterable<NurseEntity> getAllNurses() {
+	public @ResponseBody Iterable<Nurse> getAllNurses() {
 		return nurseRepository.findAll();
 	}
 
