@@ -53,9 +53,10 @@ public class NurseController {
 
 
 	@GetMapping("/nurse/index")
-	public ResponseEntity<List<Nurse>> getAll() {
-		return ResponseEntity.ok(nurses);
-	}
+    public ResponseEntity<List<Nurse>> getAll() {
+        List<Nurse> nurses = nurseRepository.findAll();
+        return ResponseEntity.ok(nurses);
+    }
 
 	@PostMapping("/nurse/login/{user}/{password}")
 	public ResponseEntity<String> login(@PathVariable String user, @PathVariable String password) {
