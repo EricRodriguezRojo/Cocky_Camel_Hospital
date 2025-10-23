@@ -1,45 +1,62 @@
 package Cocky_Camel.hospital;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "ENFERMEROS")
 public class Nurse {
-	@JsonProperty("Name")
-	private String name;
-	@JsonProperty("User")
-	private String user;
-	@JsonProperty("Password")
-	private String password;
 
-	public Nurse() {
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idENFERMEROS")
+    private int id;
 
-	public Nurse(String name, String user, String password) {
-		this.name = name;
-		this.user = user;
-		this.password = password;
-	}
+    @Column(name = "NOMBRE", nullable = false)
+    private String name;
 
-	public String getName() {
-		return name;
-	}
+    @Column(name = "USUARIO", nullable = false)
+    private String user;
 
-	public String getUser() {
-		return user;
-	}
+    @Column(name = "PASSWORD", nullable = false)
+    private String password;
 
-	public String getPassword() {
-		return password;
-	}
+    public Nurse() {}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Nurse(String name, String user, String password) {
+        this.name = name;
+        this.user = user;
+        this.password = password;
+    }
 
-	public void setUser(String user) {
-		this.user = user;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getName() {
+        return name;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
