@@ -17,7 +17,7 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.InputStream;
 
 @Controller 
-@RequestMapping(path = "/nurse")
+@RequestMapping
 public class NurseController {
 
 	@Autowired
