@@ -70,12 +70,13 @@ public class NurseController {
 	}
 
 	@DeleteMapping("/nurse/{requestedId}")
-	public ResponseEntity<Void> deleteNurse(@PathVariable Integer requestedId) {
+	public ResponseEntity<String> deleteNurse(@PathVariable Integer requestedId) {
 		if (nurseRepository.existsById(requestedId)) {
 			nurseRepository.deleteById(requestedId);
-			return ResponseEntity.ok().build();
+			
+			return ResponseEntity.ok().body("Enfermero con ID " + requestedId + " encontrado y borrado.");
 		} else {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.status(404).body("No se encontró ningún enfermero con el ID: " + requestedId);
 		}
 	}
 	
