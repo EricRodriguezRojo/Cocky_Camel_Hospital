@@ -2,6 +2,8 @@ package Cocky_Camel.hospital;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -110,5 +112,32 @@ public class NurseController {
 	}
 
 
+	@PutMapping("/nurse/{requestedId}")
+	public ResponseEntity<String> putNurse(@PathVariable Integer requestedId, @RequestBody Nurse nurseUpdate) {
+		
 
+		if (nurseUpdate.getName() == null || nurseUpdate.getName().trim().isEmpty() ||
+			nurseUpdate.getUser() == null || nurseUpdate.getUser().trim().isEmpty() ||
+			nurseUpdate.getPassword() == null || nurseUpdate.getPassword().trim().isEmpty()) {
+			
+			return ResponseEntity.status(400).body("Error 400: Faltan datos obligatorios (nombre, usuario o contraseña) para la actualización.");
+		}
+
+		Optional<Nurse> nurseOptional = nurseRepository.findById(requestedId);
+
+		if (nurseOptional.isPresent()) {
+			Nurse existingNurse = nurseOptional.get();
+
+			existingNurse.setName(nurseUpdate.getName());
+			existingNurse.setUser(nurseUpdate.getUser());
+			existingNurse.setPassword(nurseUpdate.getPassword());
+
+			nurseRepository.save(existingNurse);
+
+			return ResponseEntity.ok().body("Enfermero con ID " + requestedId + " encontrado y actualizado correctamente (200 OK).");
+
+		} else {
+			return ResponseEntity.status(404).body("Error 404: No se encontró ningún enfermero con el ID: " + requestedId + " para actualizar.");
+		}
+	}
 }
