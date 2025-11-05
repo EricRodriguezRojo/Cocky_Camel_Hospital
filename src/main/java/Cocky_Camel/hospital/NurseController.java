@@ -121,6 +121,7 @@ public class NurseController {
 					.body("Error 400: Faltan datos obligatorios (nombre, usuario o contraseña) para la actualización.");
 		}
 
+		
 		Optional<Nurse> nurseOptional = nurseRepository.findById(requestedId);
 
 		if (nurseOptional.isPresent()) {
