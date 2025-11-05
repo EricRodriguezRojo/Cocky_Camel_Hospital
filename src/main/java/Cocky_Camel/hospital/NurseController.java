@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import java.io.InputStream;
-
+import org.springframework.data.jpa.repository.JpaRepository;
 @Controller 
 @RequestMapping
 public class NurseController {
@@ -68,4 +68,27 @@ public class NurseController {
 	        return ResponseEntity.status(401).body("Usuario o contraseña incorrectos");
 	    }
 	}
+
+	@DeleteMapping("/nurse/{requestedId}")
+	public ResponseEntity<Void> deleteNurse(@PathVariable Integer requestedId) {
+		if (nurseRepository.existsById(requestedId)) {
+			nurseRepository.deleteById(requestedId);
+			return ResponseEntity.ok().build();
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
+	@GetMapping("/nurse/{id}")
+	public ResponseEntity<?> getNurseById(@PathVariable Integer id) {
+	    Nurse nurse = nurseRepository.findById(id).orElse(null);
+
+	    if (nurse != null) {
+	        return ResponseEntity.ok(nurse); // 200 OK
+	    } else {
+	        return ResponseEntity.status(404).body("No se encontró ningún enfermero con el ID: " + id);
+	    }
+	}
+
+
 }
