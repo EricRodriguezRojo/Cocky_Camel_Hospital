@@ -18,7 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import java.io.InputStream;
 import org.springframework.data.jpa.repository.JpaRepository;
-@Controller 
+
+@Controller
 @RequestMapping
 public class NurseController {
 
@@ -44,83 +45,80 @@ public class NurseController {
 
 	@GetMapping("/nurse/name/{name}")
 	public ResponseEntity<?> findByName(@PathVariable String name) {
-	    Nurse nurse = nurseRepository.findByNameIgnoreCase(name);
+		Nurse nurse = nurseRepository.findByNameIgnoreCase(name);
 
-	    if (nurse != null) {
-	        return ResponseEntity.ok(nurse);
-	    }
+		if (nurse != null) {
+			return ResponseEntity.ok(nurse);
+		}
 
-	    return ResponseEntity.status(404).body("No se encontró ningún enfermero con el nombre: " + name);
+		return ResponseEntity.status(404).body("No se encontró ningún enfermero con el nombre: " + name);
 	}
 
-
 	@GetMapping("/nurse/index")
-    public ResponseEntity<List<Nurse>> getAll() {
-        List<Nurse> nurses = nurseRepository.findAll();
-        return ResponseEntity.ok(nurses);
-    }
+	public ResponseEntity<List<Nurse>> getAll() {
+		List<Nurse> nurses = nurseRepository.findAll();
+		return ResponseEntity.ok(nurses);
+	}
 
 	@PostMapping("/nurse/login/{user}/{password}")
 	public ResponseEntity<String> login(@PathVariable String user, @PathVariable String password) {
-	    Nurse nurse = nurseRepository.findByUserIgnoreCase(user);
+		Nurse nurse = nurseRepository.findByUserIgnoreCase(user);
 
-	    if (nurse != null && nurse.getPassword().equals(password)) {
-	        return ResponseEntity.ok("Login correcto. Bienvenido/a " + nurse.getName() + "!");
-	    } else {
-	        return ResponseEntity.status(401).body("Usuario o contraseña incorrectos");
-	    }
+		if (nurse != null && nurse.getPassword().equals(password)) {
+			return ResponseEntity.ok("Login correcto. Bienvenido/a " + nurse.getName() + "!");
+		} else {
+			return ResponseEntity.status(401).body("Usuario o contraseña incorrectos");
+		}
 	}
 
 	@DeleteMapping("/nurse/{requestedId}")
 	public ResponseEntity<String> deleteNurse(@PathVariable Integer requestedId) {
 		if (nurseRepository.existsById(requestedId)) {
 			nurseRepository.deleteById(requestedId);
-			
+
 			return ResponseEntity.ok().body("Enfermero con ID " + requestedId + " encontrado y borrado.");
 		} else {
 			return ResponseEntity.status(404).body("No se encontró ningún enfermero con el ID: " + requestedId);
 		}
 	}
-	
+
 	@GetMapping("/nurse/{id}")
 	public ResponseEntity<?> getNurseById(@PathVariable Integer id) {
-	    Nurse nurse = nurseRepository.findById(id).orElse(null);
+		Nurse nurse = nurseRepository.findById(id).orElse(null);
 
-	    if (nurse != null) {
-	        return ResponseEntity.ok(nurse); // 200 OK
-	    } else {
-	        return ResponseEntity.status(404).body("No se encontró ningún enfermero con el ID: " + id);
-	    }
+		if (nurse != null) {
+			return ResponseEntity.ok(nurse); // 200 OK
+		} else {
+			return ResponseEntity.status(404).body("No se encontró ningún enfermero con el ID: " + id);
+		}
 	}
-	
+
 	@PostMapping("/nurse")
 	public ResponseEntity<String> createNurse(@RequestBody Nurse nurse) {
-	    if (nurse.getName() == null || nurse.getName().trim().isEmpty() ||
-	        nurse.getUser() == null || nurse.getUser().trim().isEmpty() ||
-	        nurse.getPassword() == null || nurse.getPassword().trim().isEmpty()) {
-	        return ResponseEntity
-	                .badRequest()
-	                .body("Datos inválidos. Los campos 'name', 'user' y 'password' son obligatorios.");
-	    }
+		if (nurse.getName() == null || nurse.getName().trim().isEmpty() || nurse.getUser() == null
+				|| nurse.getUser().trim().isEmpty() || nurse.getPassword() == null
+				|| nurse.getPassword().trim().isEmpty()) {
+			return ResponseEntity.badRequest()
+					.body("Datos inválidos. Los campos 'name', 'user' y 'password' son obligatorios.");
+		}
 
-	    try {
-	        Nurse savedNurse = nurseRepository.save(nurse);
-	        return ResponseEntity.ok("enfermero creado correctamente con ID: " + savedNurse.getId());
-	    } catch (Exception e) {
-	        return ResponseEntity.badRequest().body("Error 400: No se pudo crear el enfermero. " + e.getMessage());
-	    }
+		try {
+			Nurse savedNurse = nurseRepository.save(nurse);
+			return ResponseEntity.ok("enfermero creado correctamente con ID: " + savedNurse.getId());
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body("Error 400: No se pudo crear el enfermero. " + e.getMessage());
+		}
 	}
-
 
 	@PutMapping("/nurse/{requestedId}")
 	public ResponseEntity<String> putNurse(@PathVariable Integer requestedId, @RequestBody Nurse nurseUpdate) {
-		
 
-		if (nurseUpdate.getName() == null || nurseUpdate.getName().trim().isEmpty() ||
-			nurseUpdate.getUser() == null || nurseUpdate.getUser().trim().isEmpty() ||
-			nurseUpdate.getPassword() == null || nurseUpdate.getPassword().trim().isEmpty()) {
-			
-			return ResponseEntity.status(400).body("Error 400: Faltan datos obligatorios (nombre, usuario o contraseña) para la actualización.");
+		if (nurseUpdate.getName() == null || nurseUpdate.getName().trim().isEmpty() || nurseUpdate.getUser() == null
+				|| nurseUpdate.getUser().trim().isEmpty() || nurseUpdate.getPassword() == null
+				|| nurseUpdate.getPassword().trim().isEmpty()) {
+
+			return ResponseEntity.status(400)
+					.body("Error 400: Faltan datos obligatorios (nombre, usuario o contraseña) para la actualización.");
 		}
 
 		Optional<Nurse> nurseOptional = nurseRepository.findById(requestedId);
@@ -134,10 +132,12 @@ public class NurseController {
 
 			nurseRepository.save(existingNurse);
 
-			return ResponseEntity.ok().body("Enfermero con ID " + requestedId + " encontrado y actualizado correctamente (200 OK).");
+			return ResponseEntity.ok()
+					.body("Enfermero con ID " + requestedId + " encontrado y actualizado correctamente (200 OK).");
 
 		} else {
-			return ResponseEntity.status(404).body("Error 404: No se encontró ningún enfermero con el ID: " + requestedId + " para actualizar.");
+			return ResponseEntity.status(404)
+					.body("Error 404: No se encontró ningún enfermero con el ID: " + requestedId + " para actualizar.");
 		}
 	}
 }
