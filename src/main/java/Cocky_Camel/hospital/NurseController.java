@@ -90,6 +90,25 @@ public class NurseController {
 	        return ResponseEntity.status(404).body("No se encontró ningún enfermero con el ID: " + id);
 	    }
 	}
+	
+	@PostMapping("/nurse")
+	public ResponseEntity<String> createNurse(@RequestBody Nurse nurse) {
+	    if (nurse.getName() == null || nurse.getName().trim().isEmpty() ||
+	        nurse.getUser() == null || nurse.getUser().trim().isEmpty() ||
+	        nurse.getPassword() == null || nurse.getPassword().trim().isEmpty()) {
+	        return ResponseEntity
+	                .badRequest()
+	                .body("Datos inválidos. Los campos 'name', 'user' y 'password' son obligatorios.");
+	    }
+
+	    try {
+	        Nurse savedNurse = nurseRepository.save(nurse);
+	        return ResponseEntity.ok("enfermero creado correctamente con ID: " + savedNurse.getId());
+	    } catch (Exception e) {
+	        return ResponseEntity.badRequest().body("Error 400: No se pudo crear el enfermero. " + e.getMessage());
+	    }
+	}
+
 
 
 }
