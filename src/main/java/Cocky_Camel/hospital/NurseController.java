@@ -68,4 +68,14 @@ public class NurseController {
 	        return ResponseEntity.status(401).body("Usuario o contraseña incorrectos");
 	    }
 	}
+
+	@DeleteMapping("/nurse/{requestedId}")
+	public ResponseEntity<Void> deleteNurse(@PathVariable Integer requestedId) {
+		if (nurseRepository.existsById(requestedId)) {
+			nurseRepository.deleteById(requestedId);
+			return ResponseEntity.ok().build();
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
 }
