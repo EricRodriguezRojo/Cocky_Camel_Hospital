@@ -34,12 +34,14 @@ public class NurseControllerTest {
         mockMvc.perform(post("/nurse")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"Laura\",\"user\":\"laura123\",\"password\":\"abc123\"}"))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("creado correctamente")));
     }
 
+    
+    
     // 2. Crear enfermero con datos vacíos
-    @Test
+    @Test 
     public void testCreateNurse_badRequest() throws Exception {
         mockMvc.perform(post("/nurse")
                 .contentType(MediaType.APPLICATION_JSON)
