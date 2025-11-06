@@ -88,6 +88,7 @@ public class NurseControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    
     // 7. Login correcto
     @Test
     public void testLogin_ok() throws Exception {
@@ -122,6 +123,7 @@ public class NurseControllerTest {
                 .andExpect(status().isOk());
     }
 
+    
     // 10. Actualizar enfermero inexistente	
     @Test
     public void testUpdateNurse_notFound() throws Exception {
