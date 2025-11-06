@@ -34,7 +34,7 @@ public class NurseControllerTest {
         mockMvc.perform(post("/nurse")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"Laura\",\"user\":\"laura123\",\"password\":\"abc123\"}"))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isOk())
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("creado correctamente")));
     }
 
